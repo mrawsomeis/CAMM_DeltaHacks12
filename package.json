@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Community Assistive Monitor Model - A neighbourhood tool for emergency assistance",
   "main": "server/index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/index.js",
