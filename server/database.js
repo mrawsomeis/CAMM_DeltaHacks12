@@ -2,7 +2,12 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 
-const DB_PATH = path.join(__dirname, 'database.sqlite');
+// Use /tmp for Vercel serverless (only writable directory)
+// NOTE: Data in /tmp is ephemeral on Vercel - consider using a cloud database for production
+const isVercel = process.env.VERCEL || process.env.VERCEL_ENV;
+const DB_PATH = isVercel 
+  ? path.join('/tmp', 'database.sqlite')
+  : path.join(__dirname, 'database.sqlite');
 let db = null;
 
 function getDB() {

@@ -6,13 +6,18 @@ const db = require('../database');
 const router = express.Router();
 
 // Configure multer for face image uploads
+// Use /tmp for Vercel serverless (only writable directory)
+const isVercel = process.env.VERCEL || process.env.VERCEL_ENV;
+const uploadBaseDir = isVercel 
+  ? path.join('/tmp', 'uploads', 'faces')
+  : path.join(__dirname, '../uploads/faces');
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '../uploads/faces');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    if (!fs.existsSync(uploadBaseDir)) {
+      fs.mkdirSync(uploadBaseDir, { recursive: true });
     }
-    cb(null, uploadDir);
+    cb(null, uploadBaseDir);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -65,7 +70,11 @@ router.post('/register', upload.single('faceImage'), async (req, res) => {
     // Handle face image
     let faceDataPath = null;
     if (req.file) {
-      faceDataPath = `/uploads/faces/${req.file.filename}`;
+      // For Vercel, we'll need to serve from /tmp or use a different approach
+      // For now, store the path - in production, consider using cloud storage
+      faceDataPath = isVercel 
+        ? `/tmp/uploads/faces/${req.file.filename}`
+        : `/uploads/faces/${req.file.filename}`;
     }
 
     // Insert user
