@@ -1,6 +1,6 @@
 // Vercel serverless function wrapper for Express app
-// Import the Express app from the server directory
 const app = require('../server/index');
 
-// Export as serverless function
+// Export the Express app as the handler
+// Vercel will automatically detect this as a Node.js function
 module.exports = app;
