@@ -1,0 +1,26 @@
+.consent-page {
+  padding: 2rem 0;
+}
+
+/* Mobile consent page */
+@media (max-width: 768px) {
+  .consent-page {
+    padding: 1rem 0;
+  }
+  
+  .consent-page .btn {
+    width: 100% !important;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Button groups */
+  .consent-page div[style*="display: flex"][style*="marginTop"] {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    align-items: stretch !important;
+  }
+  
+  .consent-page div[style*="display: flex"] button {
+    width: 100% !important;
+  }
+}

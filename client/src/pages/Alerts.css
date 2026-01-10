@@ -1,0 +1,68 @@
+.alerts-page {
+  padding: 2rem 0;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-badge.active {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.responded {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+/* Mobile alerts page */
+@media (max-width: 768px) {
+  .alerts-page {
+    padding: 1rem 0;
+  }
+  
+  .status-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+  
+  .alerts-page .btn {
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
+  
+  .alerts-page form {
+    width: 100%;
+  }
+  
+  .alerts-page form .btn {
+    width: 100% !important;
+  }
+  
+  .alerts-page form h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Alert form button group */
+  .alerts-page form div[style*="textAlign: center"] {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .alerts-page form div[style*="textAlign: center"] button {
+    width: 100% !important;
+  }
+  
+  /* Select dropdowns should be touch-friendly */
+  .alerts-page select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 16px;
+    min-height: 48px;
+  }
+}
