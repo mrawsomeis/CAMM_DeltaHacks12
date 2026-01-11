@@ -1,29 +1,24 @@
-from client import moorcheh_client
-from retrieve import retrieve_medical_context
+from moorcheh.client import moorcheh_client
+from moorcheh.retrieve import retrieve_combined_context
 
 def generate_alert_message(user_id: str | None, address: str):
     """
-    Triggered after:
-    - NOT_RESPONSIVE
-    - Voice prompt failed
-    - No hand movement detected
+    Uses:
+    - Global first aid & mental health guidelines
+    - Optional user-specific medical info
     """
 
-    if user_id is None:
-        medical_context = "No medical information available."
-    else:
-        retrieved = retrieve_medical_context(user_id)
-        medical_context = "\n".join(retrieved) if retrieved else "No medical information available."
+    context_texts = retrieve_combined_context(user_id)
+    combined_context = "\n".join(context_texts) if context_texts else "No context available."
 
     prompt = f"""
 Situation:
 A person has collapsed and is unresponsive.
-
 Location:
 {address}
 
-Medical context:
-{medical_context}
+Guideline + personal info:
+{combined_context}
 
 Provide guidance for nearby community members.
 """

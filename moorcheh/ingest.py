@@ -3,6 +3,16 @@
 
 # Should we continuously update? Update manually?
 
+
+# NOTE FOR FRONTEND:
+
+# from moorcheh.ingest import ingest_medical_info
+
+# ingest_medical_info(user_id, medical_text_string)
+
+
+
+
 from client import moorcheh_client
 
 def ingest_medical_info(user_id: str, medical_text: str):

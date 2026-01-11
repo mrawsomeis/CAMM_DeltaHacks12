@@ -8,19 +8,42 @@
 # Recognizing the situation will likely require some computer vision model
 # or at least some rules-based determination for detected actions..
 
-from client import moorcheh_client
+# CV SYSTEM SHOULD GIVE ME:
 
-def retrieve_medical_context(user_id: str, k: int = 3):
+#{
+#  "event": "NOT_RESPONSIVE",
+#  "user_id": "abc123" | null
+#}
+
+
+from moorcheh.client import moorcheh_client
+
+def retrieve_combined_context(user_id: str | None):
     """
-    Retrieves only the most relevant medical text
-    for an unresponsive person.
+    Retrieves:
+    - Global general first aid & mental health guidelines
+    - Optional user-specific medical info
     """
 
-    results = moorcheh_client.documents.search(
-        namespace="medical_records",
-        query="collapsed unresponsive safety considerations",
-        top_k=k,
-        filters={"user_id": user_id}
+    contexts = []
+
+    # Always include general global guidelines
+    general = moorcheh_client.documents.search(
+        namespace="first_aid_guidelines",
+        query="unresponsive person first aid and support",
+        top_k=5
     )
 
-    return [r["text"] for r in results]
+    contexts += [r["text"] for r in general]
+
+    # If user_id exists, include personalized medical info
+    if user_id:
+        personal = moorcheh_client.documents.search(
+            namespace="medical_records",
+            query="user-specific medical note relevance",
+            top_k=3,
+            filters={"user_id": user_id}
+        )
+        contexts += [r["text"] for r in personal]
+
+    return contexts
