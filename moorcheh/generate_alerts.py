@@ -20,7 +20,6 @@ def generate_alert(user_id: str):
     response = client.llm(prompt=prompt, model="cohere-v3.5")  # or Moorcheh default LLM
 
     return {
-        "user_id": user_id,
         "status": "NOT_RESPONSIVE",
         "instructions": response.get("output", "")
     }
