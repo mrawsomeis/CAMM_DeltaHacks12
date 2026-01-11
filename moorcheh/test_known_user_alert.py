@@ -1,4 +1,4 @@
-from get_alerts import generate_alert_message
+from moorcheh.get_alerts import generate_alert_message
 
 def run_known_user_test():
     fake_user_id = "test_user_epilepsy_dementia_001"

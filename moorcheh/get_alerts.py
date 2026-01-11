@@ -1,5 +1,5 @@
-from client import client, SYSTEM_PROMPT
-from retrieve import retrieve_combined_context
+from moorcheh.client import client, SYSTEM_PROMPT
+from moorcheh.retrieve import retrieve_combined_context
 
 def generate_alert_message(user_id: str | None, address: str):
     """

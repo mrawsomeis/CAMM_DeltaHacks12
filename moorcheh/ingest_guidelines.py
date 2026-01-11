@@ -1,4 +1,4 @@
-from client import client
+from moorcheh.client import client
 from moorcheh_sdk import ConflictError
 import glob
 import os

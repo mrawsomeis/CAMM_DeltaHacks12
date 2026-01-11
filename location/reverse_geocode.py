@@ -1,20 +1,26 @@
 import requests
 
-def reverse_geocode(lat: float, lng: float) -> str | None:
-    """
-    Reverse geocode using OpenStreetMap Nominatim.
-    No API key required.
-    """
+def reverse_geocode(lat: float, lon: float) -> str | None:
     try:
+        # Validate input early
+        if lat is None or lon is None:
+            return None
+
+        lat = float(lat)
+        lon = float(lon)
+
         url = "https://nominatim.openstreetmap.org/reverse"
         params = {
             "format": "jsonv2",
             "lat": lat,
-            "lon": lng
+            "lon": lon,
+            "zoom": 18,
+            "addressdetails": 1,
+            "email": "your-email@example.com"  # REQUIRED by policy
         }
 
         headers = {
-            "User-Agent": "CommunityAlertSystem/1.0 (hackathon project)"
+            "User-Agent": "CommunityAlertSystem/1.0 (contact: your-email@example.com)"
         }
 
         res = requests.get(url, params=params, headers=headers, timeout=5)
@@ -26,5 +32,6 @@ def reverse_geocode(lat: float, lng: float) -> str | None:
     except Exception as e:
         print("Reverse geocoding failed:", e)
         return None
+
 
 

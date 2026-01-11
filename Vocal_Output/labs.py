@@ -4,7 +4,7 @@ import soundfile as sf
 import io
 import numpy as np
 
-API_KEY = "sk_2cb29b7043449c3db4cd281c61fecd800ed53817d9a032c8"
+API_KEY = "You don't get my key silly :)"
 VOICE_ID = "VsQmyFHffusQDewmHB5v"
 
 def speak(text: str):

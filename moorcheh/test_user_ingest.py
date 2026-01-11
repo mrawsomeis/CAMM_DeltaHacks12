@@ -1,4 +1,4 @@
-from ingest import ingest_medical_info
+from moorcheh.ingest import ingest_medical_info
 
 def run_test_user_ingest():
     fake_user_id = "test_user_epilepsy_dementia_001"

@@ -33,13 +33,9 @@ with suppress_native_stderr(True):
     from moorcheh.get_alerts import generate_alert_message
     from location.get_location import get_laptop_location_ip
     from location.reverse_geocode import reverse_geocode
+    from data_transfer import send_custom_alert
 
 import threading
-
-ip = get_laptop_location_ip
-loc = reverse_geocode(ip["lat"], ip["lng"])
-mes = generate_alert_message(None, loc)
-print(mes)
 
 #Toggle API
 presentation = False
@@ -98,7 +94,21 @@ def main():
             if res.status in ("both", "hand_only", "face_only"):
                 present("Thank you. I detected a response. I will stand by.")
             else:
-                present("I did not detect a hand or face. I am escalating now.")
+                present("I did not detect a hand. I am escalating now.")
+                ip = get_laptop_location_ip()
+                loc = reverse_geocode(ip["lat"], ip["lng"])
+
+                person = None
+                if getattr(res, "saw_face", False):
+                    # If recognized, use the ID/name; otherwise pass something meaningful
+                    person = res.face_id if getattr(res, "face_id", None) else "unknown_face"
+
+                mes = generate_alert_message(person, loc)
+                send_custom_alert(
+                    alert_type='fall',
+                    message=mes
+                )
+                print('Send')
 
 if __name__ == "__main__":
     main()

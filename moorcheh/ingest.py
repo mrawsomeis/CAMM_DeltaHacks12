@@ -5,7 +5,7 @@
 # ingest_medical_info(user_id, medical_text_string)
 
 
-from client import client
+from moorcheh.client import client
 from moorcheh_sdk import ConflictError
 
 NAMESPACE = "medical_records"

@@ -1,4 +1,4 @@
-from get_alerts import generate_alert_message
+from moorcheh.get_alerts import generate_alert_message
 
 def run_manual_test():
     user_id = None  # Simulate unknown person

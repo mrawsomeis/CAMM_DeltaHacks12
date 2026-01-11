@@ -1,4 +1,4 @@
-from client import client
+from moorcheh.client import client
 
 def retrieve_combined_context(user_id: str | None):
     context_texts = []
