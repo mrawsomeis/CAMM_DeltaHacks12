@@ -1,18 +1,25 @@
-# Here we initialize the Moorcheh client for use
-# in medical document storage and retrieval.
-
-# RAG with Moorcheh upon facial recognition so that
-# correct, context-dependent and RELEVANT information
-# is sent to nearby community members (who are opted in).
-
 from moorcheh import Moorcheh
-import os
 
-def get_moorcheh_client():
-    return Moorcheh(
-        api_key=os.getenv("NEXT_PUBLIC_MOORCHEH_API_KEY")
-    )
+SYSTEM_PROMPT = """
+You are an AI assistant helping nearby community members assist a person in distress.
 
-# we need to keep the API key secret
-# so we will use environment variables to store it
-# and load it from there
+The situation:
+- A person has collapsed and is unresponsive.
+
+Rules:
+- Do NOT diagnose medical conditions.
+- Do NOT instruct contacting emergency services.
+- Minimize personal or sensitive information.
+- Provide calm, practical, community-safe guidance.
+- Give at most 3 short steps.
+- Assume community members are non-medical.
+
+If medical context is provided, use it cautiously.
+If no medical context is available, give general guidance.
+"""
+
+moorcheh_client = Moorcheh(
+    api_key="YOUR_MOORCHEH_API_KEY",
+    llm=True,
+    system_prompt=SYSTEM_PROMPT
+)
