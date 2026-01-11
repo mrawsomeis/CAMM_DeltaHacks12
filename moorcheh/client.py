@@ -1,25 +1,22 @@
-from moorcheh import Moorcheh
+import os
+from moorcheh_sdk import MoorchehClient
 
+# Make sure MOORCHEH_API_KEY is set in environment variables
+api_key = os.environ.get("MOORCHEH_API_KEY")
+if not api_key:
+    raise ValueError("Please set the MOORCHEH_API_KEY environment variable")
+
+# Create a single reusable client instance
+client = MoorchehClient(api_key=api_key)
+
+# SYSTEM_PROMPT contains all behavior rules
 SYSTEM_PROMPT = """
 You are an AI assistant helping nearby community members assist a person in distress.
-
-The situation:
-- A person has collapsed and is unresponsive.
-
-Rules:
+- The person is assumed collapsed and unresponsive.
 - Do NOT diagnose medical conditions.
 - Do NOT instruct contacting emergency services.
+- Use global first aid and mental health first aid guidelines safely.
 - Minimize personal or sensitive information.
-- Provide calm, practical, community-safe guidance.
+- Provide calm, practical guidance.
 - Give at most 3 short steps.
-- Assume community members are non-medical.
-
-If medical context is provided, use it cautiously.
-If no medical context is available, give general guidance.
 """
-
-moorcheh_client = Moorcheh(
-    api_key="YOUR_MOORCHEH_API_KEY",
-    llm=True,
-    system_prompt=SYSTEM_PROMPT
-)

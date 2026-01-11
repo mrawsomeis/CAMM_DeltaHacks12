@@ -16,34 +16,32 @@
 #}
 
 
-from moorcheh.client import moorcheh_client
+from client import client
 
 def retrieve_combined_context(user_id: str | None):
     """
     Retrieves:
-    - Global general first aid & mental health guidelines
+    - General first-aid & mental health guidelines
     - Optional user-specific medical info
     """
+    context_texts = []
 
-    contexts = []
-
-    # Always include general global guidelines
-    general = moorcheh_client.documents.search(
-        namespace="first_aid_guidelines",
+    # 1. General guidelines
+    general_results = client.similarity_search.query(
+        namespaces=["first_aid_guidelines"],
         query="unresponsive person first aid and support",
         top_k=5
     )
+    context_texts += [r["text"] for r in general_results]
 
-    contexts += [r["text"] for r in general]
-
-    # If user_id exists, include personalized medical info
+    # 2. User-specific medical info
     if user_id:
-        personal = moorcheh_client.documents.search(
-            namespace="medical_records",
+        personal_results = client.similarity_search.query(
+            namespaces=["medical_records"],
             query="user-specific medical note relevance",
-            top_k=3,
-            filters={"user_id": user_id}
+            top_k=3
         )
-        contexts += [r["text"] for r in personal]
+        personal_texts = [r["text"] for r in personal_results if r.get("id") == user_id]
+        context_texts += personal_texts
 
-    return contexts
+    return context_texts
