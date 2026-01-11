@@ -58,7 +58,6 @@ if (!isVercel) {
 module.exports = app;
 
 // Your existing imports...
-const express = require('express');
 // ... other imports
 
 // ADD THESE NEW IMPORTS
