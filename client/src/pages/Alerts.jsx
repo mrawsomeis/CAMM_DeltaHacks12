@@ -2,38 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Alerts.css';
 
-const createTestAlert = () => {
-  const testAlert = {
-    id: Date.now(),
-    alertType: 'fall',
-    alert_type: 'fall',
-    location: 'Living Room Camera',
-    message: 'Fall detected with 95% confidence',
-    aiResponse: 'Person has fallen. Check immediately for injuries and call emergency services if needed.',
-    timestamp: new Date().toISOString(),
-    created_at: new Date().toISOString(),
-    status: 'active',
-    full_name: 'John Doe',
-    email: 'john@example.com',
-    phone: '555-5678',
-    medical_info: 'Type 2 Diabetes, High Blood Pressure'
-  };
-  
-  setAlerts(prev => [testAlert, ...prev]);
-  playAlertSound();
-  showBrowserNotification(testAlert);
-  flashPageTitle();
-};
-
-// Add this button in your JSX, right after the "Send Emergency Alert" button:
-<button
-  onClick={createTestAlert}
-  className="btn btn-primary"
-  style={{ marginLeft: '1rem' }}
->
-  🧪 Create Test Alert
-</button>
-
 
 function Alerts() {
   const [alerts, setAlerts] = useState([]);
@@ -258,5 +226,74 @@ function Alerts() {
     </div>
   );
 }
+
+const createFallAlert = () => {
+  const fallAlert = {
+    id: Date.now(),
+    alertType: 'fall',
+    alert_type: 'fall',
+    location: 'Living Room - Camera 2',
+    message: 'URGENT: Fall detected with 96.8% confidence. Person has been on the ground for 45 seconds without movement.',
+    aiResponse: `IMMEDIATE ACTION REQUIRED:
+
+1. ASSESS THE SITUATION
+   • Check if the person is conscious and responsive
+   • Ask "Are you okay?" and "Can you hear me?"
+   • Do NOT move them if neck/spine injury is suspected
+
+2. CHECK FOR INJURIES
+   • Look for bleeding, broken bones, or head trauma
+   • Check if they hit their head during the fall
+   • Assess breathing and pulse
+
+3. CALL FOR HELP
+   • If unresponsive: Call 911 immediately
+   • If conscious but in pain: Ask if they need emergency services
+   • Report fall and any visible injuries
+
+4. PROVIDE COMFORT
+   • Keep them warm with a blanket
+   • Keep them still and comfortable
+   • Stay with them until help arrives
+   • Monitor vital signs if possible
+
+⚠️ DO NOT attempt to lift them yourself - wait for trained personnel.`,
+    timestamp: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    status: 'active',
+    full_name: 'Margaret Thompson',
+    email: 'margaret.t@example.com',
+    phone: '555-2847',
+    address: '456 Oak Street, Unit 3A, Hamilton, ON',
+    medical_info: 'Age 78, Osteoporosis, Takes blood thinners (Warfarin), Previous hip fracture',
+    emergency_contact: 'Daughter: Sarah Thompson - 555-9012'
+  };
+  
+  // Add to alerts list
+  setAlerts(prev => [fallAlert, ...prev]);
+  
+  // Trigger sound and notifications
+  playAlertSound();
+  showBrowserNotification(fallAlert);
+  flashPageTitle();
+};
+
+
+<div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+  <button
+    onClick={() => setShowForm(!showForm)}
+    className="btn btn-danger"
+  >
+    {showForm ? 'Cancel' : '🚨 Send Emergency Alert'}
+  </button>
+  
+  <button
+    onClick={createFallAlert}
+    className="btn btn-primary"
+    style={{ marginLeft: '1rem', backgroundColor: '#ff6b6b', border: 'none' }}
+  >
+    🚑 Simulate Fall Detection
+  </button>
+</div>
 
 export default Alerts;
