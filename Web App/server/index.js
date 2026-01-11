@@ -56,3 +56,62 @@ if (!isVercel) {
 
 // Export for Vercel serverless function
 module.exports = app;
+
+// Your existing imports...
+const express = require('express');
+// ... other imports
+
+// ADD THESE NEW IMPORTS
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+
+const httpServer = createServer(app);
+
+// Initialize Socket.IO
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*", // In production, specify your React app URL
+    methods: ["GET", "POST"]
+  }
+});
+
+// Your existing middleware and routes...
+app.use(express.json());
+// ... other middleware
+
+// Socket.IO connection handling
+io.of('/alerts').on('connection', (socket) => {
+  console.log('Client connected to alerts namespace');
+  
+  socket.emit('connection_response', { status: 'connected' });
+  
+  socket.on('acknowledge_alert', (data) => {
+    console.log('Alert acknowledged:', data);
+    io.of('/alerts').emit('alert_acknowledged', data);
+  });
+  
+  socket.on('disconnect', () => {
+    console.log('Client disconnected from alerts namespace');
+  });
+});
+
+// Export io for use in other files
+global.io = io;
+
+// Your existing routes
+const alertsRouter = require('./routes/alerts');
+const usersRouter = require('./routes/users');
+// ... other routes
+
+app.use('/api/alerts', alertsRouter);
+app.use('/api/users', usersRouter);
+// ... other route uses
+
+// Change this at the bottom:
+// FROM: app.listen(PORT, ...)
+// TO:
+httpServer.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+

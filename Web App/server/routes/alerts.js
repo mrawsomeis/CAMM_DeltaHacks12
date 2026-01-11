@@ -122,3 +122,47 @@ router.patch('/:id', async (req, res) => {
 });
 
 module.exports = router;
+
+
+const express = require('express');
+const AlertManager = require('../alert_manager');
+
+// Your existing routes here...
+// router.get('/', async (req, res) => { ... });
+// router.post('/', async (req, res) => { ... });
+
+// NEW: Route for Python main.py to trigger real-time alerts
+router.post('/trigger', async (req, res) => {
+  try {
+    const { userId, alertType, location, message, aiResponse } = req.body;
+    
+    console.log('🚨 Alert trigger received:', alertType);
+    
+    // Get io from global (set in index.js)
+    if (!global.io) {
+      return res.status(500).json({ error: 'WebSocket not initialized' });
+    }
+    
+    const alertManager = new AlertManager(global.io);
+    
+    const alert = alertManager.sendAlert(
+      userId,
+      alertType,
+      location,
+      message,
+      aiResponse
+    );
+    
+    // Optional: Also save to database
+    // const db = require('../database');
+    // await db.query('INSERT INTO alerts (user_id, alert_type, location, message) VALUES (?, ?, ?, ?)',
+    //   [userId, alertType, location, message]);
+    
+    res.json({ success: true, alert });
+  } catch (error) {
+    console.error('❌ Error triggering alert:', error);
+    res.status(500).json({ error: 'Failed to trigger alert' });
+  }
+});
+
+module.exports = router;
