@@ -1,4 +1,3 @@
-# Body/body.py
 import time
 import math
 import threading

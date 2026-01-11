@@ -5,7 +5,7 @@ import io
 import numpy as np
 
 API_KEY = "sk_2cb29b7043449c3db4cd281c61fecd800ed53817d9a032c8"
-VOICE_ID = "UgBBYS2sOqTuMpoF3BR0"
+VOICE_ID = "VsQmyFHffusQDewmHB5v"
 
 def speak(text: str):
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
@@ -34,5 +34,3 @@ def speak(text: str):
 
     sd.play(data, samplerate)
     sd.wait()
-
-speak("Hello, world!")

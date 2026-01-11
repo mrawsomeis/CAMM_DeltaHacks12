@@ -313,7 +313,7 @@ def recognize_faces():
     cap.release()
     cv2.destroyAllWindows()
 
-while testing:
+while __name__ == "__main__" and testing:
     print("=" * 50)
     print("Face Recognition Component")
     print("=" * 50)
