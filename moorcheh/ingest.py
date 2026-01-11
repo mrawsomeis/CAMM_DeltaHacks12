@@ -7,23 +7,27 @@
 
 from moorcheh.client import get_moorcheh_client
 
-def ingest_user_medical_docs(user_id: str, documents: list[str]):
+def ingest_user_medical_info(user_id: str, medical_text: str):
+    """
+    Store user's medical info as a single string.
+    Instructions will be generated dynamically using Moorcheh LLM.
+    """
     client = get_moorcheh_client()
     collection_name = f"user_{user_id}_medical"
 
     client.collections.create_if_not_exists(name=collection_name)
 
-    for idx, doc in enumerate(documents):
-        client.documents.add(
-            collection_name=collection_name,
-            document={
-                "id": f"{user_id}_doc_{idx}",
-                "text": doc,
-                "metadata": {
-                    "category": "medical_safety"
-                }
+    client.documents.add(
+        collection_name=collection_name,
+        document={
+            "id": f"{user_id}_medical",
+            "text": medical_text,  # e.g., "User has epilepsy and peanut allergy"
+            "metadata": {
+                "category": "medical_info"
             }
-        )
+        }
+    )
+
 
 
 # EXAMPLE USAGE:

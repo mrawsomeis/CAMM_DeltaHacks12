@@ -10,27 +10,26 @@
 
 from moorcheh.client import get_moorcheh_client
 
-def retrieve_relevant_context(
-    user_id: str,
-    visual_cues: list[str] = None,
-    top_k: int = 3
-):
+def retrieve_relevant_medical_context(user_id: str):
+    """
+    Retrieve relevant medical info from Moorcheh for an unresponsive event.
+    """
     client = get_moorcheh_client()
     collection_name = f"user_{user_id}_medical"
 
-    query = "Person is not responsive and may require immediate assistance."
-
-    if visual_cues:
-        query += " Observed cues: " + ", ".join(visual_cues) + "."
+    # Query focused on collapsed / not responsive
+    query = "Person is collapsed and not responsive"
 
     results = client.search(
         collection_name=collection_name,
         query=query,
-        limit=top_k,
-        relevance_threshold=0.6
+        limit=3,
+        relevance_threshold=0.5
     )
 
     return [r["text"] for r in results]
+
+
 
 
 # EXAMPLE USAGE:
