@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>State Test Page</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 2rem;
+    }
+    button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    pre {
+      background: #020617;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Vercel State Test</h1>
+
+  <button onclick="fetchState()">Fetch Latest State</button>
+
+  <pre id="output">No data yet</pre>
+
+  <script>
+    async function fetchState() {
+      try {
+        const res = await fetch("/api/state", {
+          headers: {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        });
+
+        const data = await res.json();
+        document.getElementById("output").textContent =
+          JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("output").textContent =
+          "Error: " + err.message;
+      }
+    }
+
+    // Auto-refresh every 2 seconds
+    setInterval(fetchState, 2000);
+  </script>
+
+</body>
+</html>
