@@ -2,6 +2,39 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Alerts.css';
 
+const createTestAlert = () => {
+  const testAlert = {
+    id: Date.now(),
+    alertType: 'fall',
+    alert_type: 'fall',
+    location: 'Living Room Camera',
+    message: 'Fall detected with 95% confidence',
+    aiResponse: 'Person has fallen. Check immediately for injuries and call emergency services if needed.',
+    timestamp: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    status: 'active',
+    full_name: 'John Doe',
+    email: 'john@example.com',
+    phone: '555-5678',
+    medical_info: 'Type 2 Diabetes, High Blood Pressure'
+  };
+  
+  setAlerts(prev => [testAlert, ...prev]);
+  playAlertSound();
+  showBrowserNotification(testAlert);
+  flashPageTitle();
+};
+
+// Add this button in your JSX, right after the "Send Emergency Alert" button:
+<button
+  onClick={createTestAlert}
+  className="btn btn-primary"
+  style={{ marginLeft: '1rem' }}
+>
+  🧪 Create Test Alert
+</button>
+
+
 function Alerts() {
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
